@@ -30,9 +30,9 @@ export const reducerAuth = (state = InitialState, action: ActionType) => {
 
 export const loginTC = (values: any) => async (dispatch: Dispatch) => {
     try{
-        const res = await authAPI.login(values)
+        await authAPI.login(values)
         dispatch(setIsAuthAC(true))
-        dispatch(setLoginDataAC(res.data.data.email, res.data.data.id))
+
     }
     catch (e){
         console.log(e)
@@ -41,8 +41,10 @@ export const loginTC = (values: any) => async (dispatch: Dispatch) => {
 
 export const authMeTC = () => async (dispatch: Dispatch) => {
     try{
-        await authAPI.auth()
+       const res = await authAPI.auth()
         dispatch(setIsAuthAC(true))
+        dispatch(setLoginDataAC(res.data.data.email, res.data.data._id))
+
     }
     catch (e){
         console.log(e)
@@ -82,4 +84,4 @@ type setLoginDataTypeAC = ReturnType<typeof setLoginDataAC>
 type setIsAuthTypeAC = ReturnType<typeof setIsAuthAC>
 
 
-type ActionType = setLoginDataTypeAC| setIsAuthTypeAC
+type ActionType = setLoginDataTypeAC | setIsAuthTypeAC

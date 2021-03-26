@@ -1,10 +1,12 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunkMiddleWare from "redux-thunk";
 import {reducerAuth} from "./reducers/reducerAuth";
+import {reducerTeams} from "./reducers/reducerTeams";
 
 
 let reducers = combineReducers({
     auth: reducerAuth,
+    teams: reducerTeams
 
 });
 
