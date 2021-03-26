@@ -10,7 +10,7 @@ import {
     updateTeamTC
 } from "../../bll/reducers/reducerTeams";
 import {EditableSpan} from "../../components/EditableSpan";
-import { Team } from './team/Team';
+import {Team} from './team/Team';
 import {Boards} from "../boards/Boards";
 
 export const Teams = () => {
@@ -62,14 +62,20 @@ export const Teams = () => {
                         dispatch(updateTeamTC(team._id, name))
                     }
 
-                    return <Team id={team._id}
-                                 name={team.name}
-                                 updateTeam={updateTeam}
-                                 deleteTeam={deleteTeam}
-                    />
-                } )
+                    return (
+                        <div>
+                            <Team id={team._id}
+                                  name={team.name}
+                                  updateTeam={updateTeam}
+                                  deleteTeam={deleteTeam}
+                            />
+
+                            {teams && <Boards team_id={team._id}/>}
+                        </div>)
+
+                })
             }
-            <Boards/>
+
         </div>
     );
 };
