@@ -8,10 +8,18 @@ export type ReducerBoards = {
 }
 
 export type ReducerBoardsType = {
-   [key: string]: Array<ReducerBoards>
+    [key: string]: Array<ReducerBoards>
 }
 
-export const InitialState: ReducerBoardsType = {}
+export type InitialStateType = {
+    boards: ReducerBoardsType
+    newBoardName: string
+}
+
+export const InitialState: InitialStateType = {
+    boards: {},
+    newBoardName: ''
+}
 
 export const reducerBoards = (state = InitialState, action: ActionType) =>{
 
@@ -20,11 +28,18 @@ export const reducerBoards = (state = InitialState, action: ActionType) =>{
         case "SET_BOARDS":
             return {
                 ...state,
-                [action.payload.team_id]: action.payload.boards
+                boards: {[action.payload.team_id]: action.payload.boards}
             }
+        case "SET_NEW_BOARD_NAME":
+            return {
+                ...state,
+                ...action.payload
+            }
+
         default:
             return state
     }
+
 }
 
 export const setBoardsTC = (team_id: string) => async (dispatch: Dispatch) => {
@@ -44,16 +59,20 @@ export const deleteBoardTC = (board_id: string, team_id: string) => async (dispa
 
 export const updateBoardTC = (board_id: string, team_id: string, title: string) =>
     async (dispatch: Dispatch<any>) => {
-    await boardsAPI.updateBoard(board_id, title)
-    dispatch(setBoardsTC(team_id))
-}
+        await boardsAPI.updateBoard(board_id, title)
+        dispatch(setBoardsTC(team_id))
+    }
 
 export const setBoardsAC = (team_id: string, boards: Array<ReducerBoards>) => ({
     type: "SET_BOARDS", payload: {team_id, boards}
 } as const)
 
-
+export const setNewBoardNameAC = (newBoardName: string) => ({
+    type: "SET_NEW_BOARD_NAME", payload:{newBoardName}
+}as const )
 
 type setBoardsTypeAC = ReturnType<typeof setBoardsAC>
+type setNewBoardNameTypeAC = ReturnType<typeof setNewBoardNameAC>
 
-type ActionType = setBoardsTypeAC
+
+type ActionType = setBoardsTypeAC | setNewBoardNameTypeAC
