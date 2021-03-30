@@ -8,7 +8,9 @@ import {reducerBoards} from "./reducers/reducerBoards";
 let reducers = combineReducers({
     auth: reducerAuth,
     teams: reducerTeams,
-    boards: reducerBoards
+    boards: reducerBoards,
+    // column: reducerColumn,
+    // cards: reducerCards
 
 });
 
